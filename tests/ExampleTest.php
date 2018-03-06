@@ -1,9 +1,21 @@
 <?php
 
-class ExampleTest extends PHPUnit_Framework_TestCase
+use Laravel\Lumen\Testing\DatabaseMigrations;
+use Laravel\Lumen\Testing\DatabaseTransactions;
+
+class ExampleTest extends TestCase
 {
-    public function testTrue()
+    /**
+     * A basic test example.
+     *
+     * @return void
+     */
+    public function testExample()
     {
-        $this->assertTrue(true);
+        $this->get('/');
+
+        $this->assertEquals(
+            $this->app->version(), $this->response->getContent()
+        );
     }
 }
