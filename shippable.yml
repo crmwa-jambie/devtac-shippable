@@ -11,6 +11,7 @@ integrations:
     - integrationName: Slack (DevTac)
       type: slack
       recipients: "#build_bbapi_test"
-      branches:
-        only:
-          - master
+      on_success: always
+      on_failure: always
+      on_pull_request: never
+      on_start: always
