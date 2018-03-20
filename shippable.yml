@@ -5,3 +5,9 @@ php:
 
 script:
   - phpunit --log-junit shippable/testresults/junit.xml --coverage-xml shippable/codecoverage
+
+integrations:
+  notifications:
+    - integrationName: Slack (DevTac)
+      type: slack
+      recipients: "#build_bbapi"
