@@ -10,7 +10,7 @@ integrations:
   notifications:
     - integrationName: Slack (DevTac)
       type: slack
-      recipients: "#build_bbapi"
+      recipients: "build_bbapi"
       branches:
         only:
           - master
