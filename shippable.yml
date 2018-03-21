@@ -24,7 +24,7 @@ integrations:
   notifications:
     - integrationName: Slack (DevTac)
       type: slack
-      recipients: $SLACK_CHANNEL
+      recipients: "$SLACK_CHANNEL"
       on_success: always
       on_failure: always
       on_pull_request: never
