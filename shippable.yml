@@ -4,16 +4,17 @@ php:
   - 5.6
 
 env:
-  - SLACK_CHANNEL='#build_bbapi_test'
-  - SLACK_UPLOAD_FILE_URL='https://slack.com/api/files.upload'
-  - SLACK_API_TOKEN='xoxp-16235682945-16237185719-334192206118-70da67118da97fcf6b597a833e963f68'
-  - TEST_RESULTS_DIR=$SHIPPABLE_REPO_DIR/build/workspace/test_results/
+  global:
+    - SLACK_CHANNEL='#build_bbapi_test'
+    - SLACK_UPLOAD_FILE_URL='https://slack.com/api/files.upload'
+    - TEST_RESULTS_DIR=$SHIPPABLE_REPO_DIR/build/workspace/test_results/
 
 build:
   ci:
+    - phpunit --log-junit shippable/testresults/junit.xml --coverage-xml shippable/codecoverage
+  post_ci:
     - cd $TEST_RESULTS_DIR
     - ls -la
-#    - phpunit --log-junit shippable/testresults/junit.xml --coverage-xml shippable/codecoverage
 
 #  on_success:
 #    - curl -F file=@TEST_RESULTS_DIR"junit-noframes.html" -F "filename=junit-build-"$BUILD_NUMBER".html" -F channels=$SLACK_CHANNEL -F token=$SLACK_API_TOKEN $SLACK_UPLOAD_FILE_URL
