@@ -3,8 +3,9 @@ language: php
 php:
   - 5.6
 
-script:
-  - phpunit --log-junit shippable/testresults/junit.xml --coverage-xml shippable/codecoverage
+build:
+  ci:
+    - phpunit --log-junit shippable/testresults/junit.xml --coverage-xml shippable/codecoverage
 
 integrations:
   notifications:
