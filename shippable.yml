@@ -13,7 +13,7 @@ build:
   ci:
     - phpunit --log-junit shippable/testresults/junit.xml --coverage-xml shippable/codecoverage
   post_ci:
-    - cd $TEST_RESULTS_DIR
+#    - cd $TEST_RESULTS_DIR
     - ls -la
 
 #  on_success:
