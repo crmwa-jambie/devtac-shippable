@@ -1,5 +1,0 @@
-triggers:
-  - name: trigger-api-test
-    type: trigger
-    version:
-      counter: 1

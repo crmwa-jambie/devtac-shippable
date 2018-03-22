@@ -1,9 +1,0 @@
-jobs:
-  - name: api-test
-    type: runCI
-    steps:
-      - IN: trigger-api-test
-    on_success:
-      - script: echo "SUCCESS"
-    on_failure:
-      - script: echo "FAILED"
