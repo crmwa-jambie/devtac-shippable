@@ -44,7 +44,7 @@ jobs:
 resources:
   - name: myRepo
     type: gitRepo
-    integration: "crmwa-jambie github"
+    integration: "github"
     pointer:
       sourceName: crmwa-jambie/devtac-shippable
       branch: master
