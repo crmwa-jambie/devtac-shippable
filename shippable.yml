@@ -46,6 +46,6 @@ resources:
     type: gitRepo
     integration: "crmwa-jambie github"
     pointer:
-      sourceName: crmwa-jambie/simpleserver
+      sourceName: crmwa-jambie/devtac-shippable
       branch: master
       buildOnCommit: false
