@@ -3,28 +3,24 @@ language: php
 php:
   - 5.6
 
-env:
-  global:
-    - AWS_REGION=us-east-1
-    - AWS_LOG_BUCKET='s3://bluebilling-build/BBAPI/'$BUILD_NUMBER
-    - SLACK_UPLOAD_FILE_URL='https://slack.com/api/files.upload'
+resources:
+  - name: Slack (DevTac)
+    type: notification
+    integration: slack
+    versionTemplate:
+      recipients:
+        - "#build_bbapi_test"
 
-    # secure variable for SLACK_API_TOKEN
-    - secure: RuP4k5DOs+m8M85BEteDbf2ehi4JPUrnM5sg7UDu4Be2fcol77LW7Yux0/XoMJPjc9kprKSz+S8f/dP/H6BKRh4F7QuH6q/eqHn6DfDj29GwMdTcyfbPzyczbyzAk8xbYjVLsy3UW2ARWb3D5cpyYRCU7C9kBLqUNYnUC0Y1xcjlIILQ8vw+xE9EIpu39xUGexNq0hOdoVU1zpQ44iQMaBJPdRcj+pslYbfhqpJXYKIprxpheU/343KJ1SQFITEv1HEIlQ4SshZiQUXBxVvmlfQ5WTt22P1+iiIs3n+vs8wBsOyGzKpNthpbUliKuOmaRRm4ldgP8K3mEET6vxnWkA==
-
-    # secure variable for AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY
-    - secure: iTSOFRf8P9WeS4QM4Ykr59QDx11A/dJ/hzuGhnaHPRhnbUBMxqvDit2xW8689g5djiRk4JyNLNeIR5sFtf6cP4I4FTgASc4UaTI6K7QIBpKwyUZFGaQ3CYlQZPBABnAAm7o4rNO4WT7xsuKxbbjVMHnU12OozTwNcijyS3mUZl/IKduSL7tJ5Kp4wIjUrSe4JRsAgmiJZCkFv/o4gk5Glx8DI2enOOwrNYpb/McVpoOh5ct5G0mQKQKTDP9rIhMDx0KSPs63ccVKLvjnAfvqB0tqw2w5H78QMUaTH32KHaLM9GodFSGwsJ2noGH7PDDiigIQH75eBrwb5VEvmQVTxA==
-
-build:
-  ci:
-    - echo "Hello World"
-
-integrations:
-  notifications:
-    - integrationName: Slack (DevTac)
-      type: slack
-      recipients: "#build_bbapi_test"
-      on_success: always
-      on_failure: always
-      on_pull_request: never
-      on_start: always
+jobs:
+  - name: container_multiple_tasks
+    type: runSh
+    steps:
+      - TASK:
+          name: check_images
+          script:
+            - echo "Checking available docker images"
+            - sudo docker images
+    on_start:
+      NOTIFY: Slack (DevTac)
+    on_success:
+      NOTIFY: Slack (DevTac)
