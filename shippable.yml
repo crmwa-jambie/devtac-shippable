@@ -3,6 +3,10 @@ language: php
 php:
   - 5.6
 
+build:
+  ci:
+    - echo "Hello World"
+
 resources:
   - name: Slack (DevTac)
     type: notification
@@ -19,7 +23,6 @@ jobs:
           name: check_images
           script:
             - echo "Checking available docker images"
-            - sudo docker images
     on_start:
       NOTIFY: Slack (DevTac)
     on_success:
