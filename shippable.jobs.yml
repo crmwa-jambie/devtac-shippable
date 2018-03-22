@@ -1,7 +1,8 @@
 jobs:
-  - name: container_multiple_tasks
+  - name: deploy
     type: runSh
     steps:
+      - IN: devtac-shippable_runCI
       - TASK:
           name: check_images
           script:
@@ -10,3 +11,9 @@ jobs:
       NOTIFY: Slack (DevTac)
     on_success:
       NOTIFY: Slack (DevTac)
+
+  - name: devtac-shippable_runCI
+      type: runCI
+      steps:
+        - OUT: myRepo
+          replicate: devtac-shippable_ciRepo
