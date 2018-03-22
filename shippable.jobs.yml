@@ -1,0 +1,12 @@
+jobs:
+  - name: container_multiple_tasks
+    type: runSh
+    steps:
+      - TASK:
+          name: check_images
+          script:
+            - echo "Checking available docker images"
+    on_start:
+      NOTIFY: Slack (DevTac)
+    on_success:
+      NOTIFY: Slack (DevTac)

@@ -6,24 +6,3 @@ php:
 build:
   ci:
     - echo "Hello World"
-
-resources:
-  - name: Slack (DevTac)
-    type: notification
-    integration: slack
-    versionTemplate:
-      recipients:
-        - "#build_bbapi_test"
-
-jobs:
-  - name: container_multiple_tasks
-    type: runSh
-    steps:
-      - TASK:
-          name: check_images
-          script:
-            - echo "Checking available docker images"
-    on_start:
-      NOTIFY: Slack (DevTac)
-    on_success:
-      NOTIFY: Slack (DevTac)

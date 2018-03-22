@@ -1,0 +1,7 @@
+resources:
+  - name: Slack (DevTac)
+    type: notification
+    integration: slack
+    versionTemplate:
+      recipients:
+        - "#build_bbapi_test"
