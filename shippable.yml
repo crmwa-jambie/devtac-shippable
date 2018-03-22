@@ -4,5 +4,48 @@ php:
   - 5.6
 
 build:
+
   ci:
-    - echo "Hello World"
+    - echo "run my tests for nodejs version $SHIPPABLE_NODE_VERSION"
+  post_ci:
+    - echo "if tests passed, maye create some artifacts and upload somewhere (docker image, jar/war files, etc)"
+
+  on_success:
+    # saving some info in the state of this job to use later in the pipeline
+    - echo "save some state information for future pipeline use"
+    - shipctl put_resource_state $JOB_NAME versionName $BUILD_NUMBER
+    - shipctl put_resource_state $JOB_NAME ciCommit $COMMIT
+    - shipctl put_resource_state $JOB_NAME ciBranch $BRANCH
+
+
+jobs:
+  - name: deployChanges
+    type: runSh
+    steps:
+      - IN: devtac-shippable_runCI
+      - IN: myRepo
+        switch: off
+      - TASK:
+        - script: echo "hello world"
+        - script: echo "-------- state variables from CI --------------"
+        - script: cat $DEVTAC-SHIPPABLE_RUNCI_STATE/devtac-shippable_runCI.env
+        - script: echo "---------------------------------------------"
+        - script: source $DEVTAC-SHIPPABLE_RUNCI_STATE/devtac-shippable_runCI.env
+        - script: ciBuildNumber=$(shipctl get_resource_version_name devtac-shippable_runCI)
+        - script: echo "ci build number was $ciBuildNumber"
+        - script: echo "myRepo versionName is- $MYREPO_VERSIONNAME"
+
+  - name: devtac-shippable_runCI
+    type: runCI
+    steps:
+      - OUT: myRepo
+        replicate: devtac-shippable_ciRepo
+
+resources:
+  - name: myRepo
+    type: gitRepo
+    integration: "crmwa-jambie github"
+    pointer:
+      sourceName: crmwa-jambie/simpleserver
+      branch: master
+      buildOnCommit: false
