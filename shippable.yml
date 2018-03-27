@@ -20,12 +20,14 @@ build:
     - phpunit --log-junit shippable/testresults/junit.xml --coverage-xml shippable/codecoverage
 
   on_success:
-    - curl -F file=@shippable/testresults/junit.xml -F "filename=success-build-"$BUILD_NUMBER".html" -F channels=#build_bbapi_test -F token=$SLACK_API_TOKEN $SLACK_UPLOAD_FILE_URL
-    - aws s3 cp shippable/testresults/junit.xml $AWS_LOG_BUCKET" BUILD PASSED/" --region $AWS_REGION
+    - cd shippable/codecoverage
+    - ls -la
+#    - curl -F file=@shippable/testresults/junit.xml -F "filename=success-build-"$BUILD_NUMBER".html" -F channels=#build_bbapi_test -F token=$SLACK_API_TOKEN $SLACK_UPLOAD_FILE_URL
+#    - aws s3 cp shippable/testresults/junit.xml $AWS_LOG_BUCKET" BUILD PASSED/" --region $AWS_REGION
 
   on_failure:
-    - curl -F file=@shippable/testresults/junit.xml -F "filename=failed-build-"$BUILD_NUMBER".html" -F channels=#build_bbapi_test -F token=$SLACK_API_TOKEN $SLACK_UPLOAD_FILE_URL
-    - aws s3 cp shippable/testresults/junit.xml $AWS_LOG_BUCKET" BUILD FAILED/" --region $AWS_REGION
+#    - curl -F file=@shippable/testresults/junit.xml -F "filename=failed-build-"$BUILD_NUMBER".html" -F channels=#build_bbapi_test -F token=$SLACK_API_TOKEN $SLACK_UPLOAD_FILE_URL
+#    - aws s3 cp shippable/testresults/junit.xml $AWS_LOG_BUCKET" BUILD FAILED/" --region $AWS_REGION
 
 integrations:
   notifications:
