@@ -22,7 +22,8 @@ build:
     - phpunit --log-junit shippable/testresults/junit.xml --coverage-xml shippable/codecoverage
 
   on_success:
-    - ls -la
+    - cd shippable/
+    - ls -R
 #    - curl -F file=@shippable/testresults/junit.xml -F "filename=success-build-"$BUILD_NUMBER".html" -F channels=#build_bbapi_test -F token=$SLACK_API_TOKEN $SLACK_UPLOAD_FILE_URL
 #    - aws s3 cp shippable/testresults/junit.xml $AWS_LOG_BUCKET" BUILD PASSED/" --region $AWS_REGION
 
