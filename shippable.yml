@@ -17,10 +17,12 @@ env:
 
 build:
   ci:
+    - mkdir -p shippable/testresults
+    - mkdir -p shippable/codecoverage
     - phpunit --log-junit shippable/testresults/junit.xml --coverage-xml shippable/codecoverage
 
   on_success:
-    - cd shippable/codecoverage
+    - cd /shippableci/
     - ls -la
 #    - curl -F file=@shippable/testresults/junit.xml -F "filename=success-build-"$BUILD_NUMBER".html" -F channels=#build_bbapi_test -F token=$SLACK_API_TOKEN $SLACK_UPLOAD_FILE_URL
 #    - aws s3 cp shippable/testresults/junit.xml $AWS_LOG_BUCKET" BUILD PASSED/" --region $AWS_REGION
