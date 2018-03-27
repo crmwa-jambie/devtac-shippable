@@ -21,6 +21,7 @@ build:
     - if [ "$DEPLOY_TRIGGER" == true ]; then
         cd shippable/;
         ls -R;
+        echo "DEPLOY";
       else
         phpunit --log-junit "shippable/testresults/junit.xml" --coverage-xml "shippable/codecoverage";
       fi
