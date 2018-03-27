@@ -8,6 +8,7 @@ env:
     - AWS_REGION=us-east-1
     - AWS_LOG_BUCKET='s3://bluebilling-build/BBAPI/'$BUILD_NUMBER
     - SLACK_UPLOAD_FILE_URL='https://slack.com/api/files.upload'
+    - TEST_JUNIT_DIR=$SHIPPABLE_REPO_DIR/build/workspace/test_results/
 
     # secure variable for SLACK_API_TOKEN
     - secure: RuP4k5DOs+m8M85BEteDbf2ehi4JPUrnM5sg7UDu4Be2fcol77LW7Yux0/XoMJPjc9kprKSz+S8f/dP/H6BKRh4F7QuH6q/eqHn6DfDj29GwMdTcyfbPzyczbyzAk8xbYjVLsy3UW2ARWb3D5cpyYRCU7C9kBLqUNYnUC0Y1xcjlIILQ8vw+xE9EIpu39xUGexNq0hOdoVU1zpQ44iQMaBJPdRcj+pslYbfhqpJXYKIprxpheU/343KJ1SQFITEv1HEIlQ4SshZiQUXBxVvmlfQ5WTt22P1+iiIs3n+vs8wBsOyGzKpNthpbUliKuOmaRRm4ldgP8K3mEET6vxnWkA==
@@ -22,9 +23,7 @@ build:
     - phpunit --log-junit shippable/testresults/junit.xml --coverage-xml shippable/codecoverage
 
   on_success:
-    - cd shippable/
-    - ls -R
-#    - curl -F file=@shippable/testresults/junit.xml -F "filename=success-build-"$BUILD_NUMBER".html" -F channels=#build_bbapi_test -F token=$SLACK_API_TOKEN $SLACK_UPLOAD_FILE_URL
+    - curl -F file=@$TEST_JUNIT_DIR"junit-noframes.html" -F "filename=success-build-"$BUILD_NUMBER".html" -F channels=#build_bbapi_test -F token=$SLACK_API_TOKEN $SLACK_UPLOAD_FILE_URL
 #    - aws s3 cp shippable/testresults/junit.xml $AWS_LOG_BUCKET" BUILD PASSED/" --region $AWS_REGION
 
   on_failure:
