@@ -18,7 +18,12 @@ env:
 
 build:
   ci:
-    - if [ "$DEPLOY_TRIGGER" == true ]; then cd shippable/; ls -R; else phpunit --log-junit "shippable/testresults/junit.xml" --coverage-xml "shippable/codecoverage"; fi
+    - if [ "$DEPLOY_TRIGGER" == true ]; then
+        cd shippable/;
+        ls -R;
+      else
+        phpunit --log-junit "shippable/testresults/junit.xml" --coverage-xml "shippable/codecoverage";
+      fi
 
   on_success:
 #    - curl -F file=@junit-noframes.html -F "filename=success-build-"$BUILD_NUMBER".html" -F channels=#build_bbapi_test -F token=$SLACK_API_TOKEN $SLACK_UPLOAD_FILE_URL
