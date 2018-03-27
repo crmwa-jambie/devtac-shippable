@@ -5,6 +5,7 @@ php:
 
 env:
   global:
+    - DEPLOY_TRIGGER=false
     - AWS_REGION=us-east-1
     - AWS_LOG_BUCKET='s3://bluebilling-build/BBAPI/'$BUILD_NUMBER
     - SLACK_UPLOAD_FILE_URL='https://slack.com/api/files.upload'
@@ -17,19 +18,13 @@ env:
 
 build:
   ci:
-    - mkdir -p shippable/testresults
-    - mkdir -p shippable/codecoverage
-    - phpunit --log-junit "shippable/testresults/junit.xml" --coverage-xml "shippable/codecoverage" --coverage-html "shippable/phpunit/html"
+    - if [ "$DEPLOY_TRIGGER" == true ]; then echo "DEPLOY"; else phpunit --log-junit "shippable/testresults/junit.xml" --coverage-xml "shippable/codecoverage"; fi
 
   on_success:
-    - cd shippable/
-    - ls -R
 #    - curl -F file=@junit-noframes.html -F "filename=success-build-"$BUILD_NUMBER".html" -F channels=#build_bbapi_test -F token=$SLACK_API_TOKEN $SLACK_UPLOAD_FILE_URL
 #    - aws s3 cp shippable/testresults/junit.xml $AWS_LOG_BUCKET" BUILD PASSED/" --region $AWS_REGION
 
   on_failure:
-    - cd shippable/
-    - ls -R
 #    - curl -F file=@shippable/testresults/junit.xml -F "filename=failed-build-"$BUILD_NUMBER".html" -F channels=#build_bbapi_test -F token=$SLACK_API_TOKEN $SLACK_UPLOAD_FILE_URL
 #    - aws s3 cp shippable/testresults/junit.xml $AWS_LOG_BUCKET" BUILD FAILED/" --region $AWS_REGION
 
