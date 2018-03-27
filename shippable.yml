@@ -19,10 +19,12 @@ build:
   ci:
     - mkdir -p shippable/testresults
     - mkdir -p shippable/codecoverage
-    - phpunit --log-junit shippable/testresults/junit.xml --coverage-xml shippable/codecoverage
+    - phpunit --log-junit "shippable/testresults/junit.xml" --coverage-xml "shippable/codecoverage" --coverage-html "shippable/phpunit/html"
 
   on_success:
-    - curl -F file=@junit-noframes.html -F "filename=success-build-"$BUILD_NUMBER".html" -F channels=#build_bbapi_test -F token=$SLACK_API_TOKEN $SLACK_UPLOAD_FILE_URL
+    - cd shippable
+    - ls -R
+#    - curl -F file=@junit-noframes.html -F "filename=success-build-"$BUILD_NUMBER".html" -F channels=#build_bbapi_test -F token=$SLACK_API_TOKEN $SLACK_UPLOAD_FILE_URL
 #    - aws s3 cp shippable/testresults/junit.xml $AWS_LOG_BUCKET" BUILD PASSED/" --region $AWS_REGION
 
   on_failure:
