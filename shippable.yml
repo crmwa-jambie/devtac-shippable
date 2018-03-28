@@ -17,10 +17,16 @@ env:
     - secure: iTSOFRf8P9WeS4QM4Ykr59QDx11A/dJ/hzuGhnaHPRhnbUBMxqvDit2xW8689g5djiRk4JyNLNeIR5sFtf6cP4I4FTgASc4UaTI6K7QIBpKwyUZFGaQ3CYlQZPBABnAAm7o4rNO4WT7xsuKxbbjVMHnU12OozTwNcijyS3mUZl/IKduSL7tJ5Kp4wIjUrSe4JRsAgmiJZCkFv/o4gk5Glx8DI2enOOwrNYpb/McVpoOh5ct5G0mQKQKTDP9rIhMDx0KSPs63ccVKLvjnAfvqB0tqw2w5H78QMUaTH32KHaLM9GodFSGwsJ2noGH7PDDiigIQH75eBrwb5VEvmQVTxA==
 
 build:
+  pre_ci:
+    - if [ "$DEPLOY_TRIGGER" == true ]; then
+        sudo apt-get install software-properties-common;
+        sudo apt-add-repository ppa:ansible/ansible -y;
+        sudo apt-get update;
+        apt-get install zip unzip -y;
+        sudo apt-get install ansible -y;
+      fi
   ci:
     - if [ "$DEPLOY_TRIGGER" == true ]; then
-        cd shippable/;
-        ls -R;
         echo "DEPLOY";
       else
         phpunit --log-junit "shippable/testresults/junit.xml" --coverage-xml "shippable/codecoverage";
