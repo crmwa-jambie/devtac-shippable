@@ -25,6 +25,7 @@ build:
         apt-get install zip unzip -y;
         sudo apt-get install ansible -y;
       fi
+
   ci:
     - if [ "$DEPLOY_TRIGGER" == true ]; then
         echo "DEPLOY";
